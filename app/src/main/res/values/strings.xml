@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PostsProject</string>
+    <string name="title_post_title">Title: @{post.title}</string>
+    <string name="description_post_body">Description @{post.body}</string>
+</resources>
