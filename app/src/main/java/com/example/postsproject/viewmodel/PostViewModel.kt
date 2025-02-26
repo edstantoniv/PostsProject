@@ -17,8 +17,13 @@ class PostViewModel: ViewModel() {
     val errorMessage: LiveData<String> get() = _errorMessage
 
     fun fetchPosts() {
+        if (_posts.value != null) {
+            return
+        }
         viewModelScope.launch {
+
             try {
+
                 val response: Response<List<Post>> = PostRetrofitClient.api.getPosts()
                 if (response.isSuccessful) {
                     _posts.value = response.body()
@@ -30,4 +35,16 @@ class PostViewModel: ViewModel() {
             }
         }
     }
+
+    //Useful when we extend and have a background task that is checking for data updates
+    fun updatePosts(newPosts: List<Post>)
+    {
+        _posts.value = newPosts
+
+    }
+    fun updateError(newErrorMessage: String)
+    {
+        _errorMessage.value = newErrorMessage
+    }
+
 }
