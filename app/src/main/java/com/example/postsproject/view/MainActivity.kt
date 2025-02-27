@@ -4,16 +4,23 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
 import androidx.activity.viewModels
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.postsproject.viewmodel.PostViewModel
+import com.example.postsproject.model.PostRepository
+import com.example.postsproject.viewmodel.PostViewModelFactory
 import com.example.postsproject.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+    // Create an instance of PostRepository
+    private val repository = PostRepository()
     // Declare the binding object
     private lateinit var binding: ActivityMainBinding
-    // Initialize the ViewModel
-    private val viewModel: PostViewModel by viewModels()
+    // Instantiate the ViewModel with the repository
+    private val viewModel: PostViewModel by viewModels {
+        PostViewModelFactory(repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

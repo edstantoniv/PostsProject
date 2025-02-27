@@ -5,11 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.postsproject.model.Post
-import com.example.postsproject.model.PostRetrofitClient
+import com.example.postsproject.model.PostRepository
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class PostViewModel: ViewModel() {
+class PostViewModel(private val repository: PostRepository) : ViewModel() {
     private val _posts = MutableLiveData<List<Post>>()
     val posts: LiveData<List<Post>> get() = _posts
 
@@ -21,10 +21,9 @@ class PostViewModel: ViewModel() {
             return
         }
         viewModelScope.launch {
-
             try {
-
-                val response: Response<List<Post>> = PostRetrofitClient.api.getPosts()
+                // Call the repository to fetch posts
+                val response: Response<List<Post>> = repository.getPosts()
                 if (response.isSuccessful) {
                     _posts.value = response.body()
                 } else {
