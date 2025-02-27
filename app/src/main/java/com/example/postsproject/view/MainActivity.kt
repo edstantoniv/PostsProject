@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
 import androidx.activity.viewModels
-
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.postsproject.viewmodel.PostViewModel
 import com.example.postsproject.model.PostRepository
