@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.postsproject.model.Post
 import com.example.postsproject.model.PostRepository
 import kotlinx.coroutines.launch
-import retrofit2.Response
 
 class PostViewModel(private val repository: PostRepository) : ViewModel() {
     private val _posts = MutableLiveData<List<Post>>()
@@ -22,15 +21,13 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
         }
         viewModelScope.launch {
             try {
-                // Call the repository to fetch posts
-                val response: Response<List<Post>> = repository.getPosts()
-                if (response.isSuccessful) {
-                    _posts.value = response.body()
-                } else {
-                    _errorMessage.value = "Error: ${response.message()}"
-                }
+                // Call the repository to get posts
+                _posts.value = repository.getPosts()
+                if(repository.getErrorMsg() != null)
+                    _errorMessage.value = "Error: ${repository.getErrorMsg()}"
             } catch (e: Exception) {
-                _errorMessage.value = "Error: ${e.message}"
+
+                _errorMessage.value = "Unhandled Exception: ${e.message}"
             }
         }
     }
